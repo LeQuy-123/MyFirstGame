@@ -21,8 +21,8 @@ public class PlateKitchenObject : KitchenObject
         {
             return false;
         } else {
-            OnIngradientAdded?.Invoke(this, new OnIngradientAddedEventArgs{kitchenObjectSO = kitchenObjectSO});
             kitchenObjectSOList.Add(kitchenObjectSO);
+            OnIngradientAdded?.Invoke(this, new OnIngradientAddedEventArgs{kitchenObjectSO = kitchenObjectSO});
             return true;
         }
     }
