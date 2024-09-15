@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class DeliveryManager : MonoBehaviour
 {
+    public event EventHandler OnRecipeSpawned;
+    public event EventHandler OnRecipeCompleted;
     public static DeliveryManager Instance { get; private set; }
     [SerializeField] private RecipeListSO recipeListSO;
     private List<RecipeSO> watitngRecipeSOList;
@@ -26,10 +30,10 @@ public class DeliveryManager : MonoBehaviour
     }
     private void SpawnRecipe()
     {
-        int randomIndex = Random.Range(0, recipeListSO.recipeSOList.Count);
+        int randomIndex = UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count);
         RecipeSO recipeSO = recipeListSO.recipeSOList[randomIndex];
         watitngRecipeSOList.Add(recipeSO);
-        Debug.Log(recipeSO.name);
+        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
          // Spawn the recipe visual here
     }
     public void DeliveryRecipe(PlateKitchenObject plateKitchenObject)
@@ -55,6 +59,7 @@ public class DeliveryManager : MonoBehaviour
                 {
                     watitngRecipeSOList.RemoveAt(i); // Remove the matched recipe
                     Debug.Log("Match recipes");
+                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty); // Notify other listeners
                     Destroy(plateKitchenObject.gameObject); // Destroy the plate
                     return; // Exit the function after a match is found
                 }
@@ -63,5 +68,8 @@ public class DeliveryManager : MonoBehaviour
         // No matching recipe found
         Debug.Log("No match recipes");
     }
-
+    public List<RecipeSO> GetWaitingRecipeSOList()
+    {
+        return watitngRecipeSOList;
+    }
 }
