@@ -9,6 +9,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
     [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
     public event EventHandler<IHasProgress.OnProgressBarChangedArgs> OnProgressBarChanged;
     public event EventHandler OnCut;
+    public static event EventHandler OnAnyCut;
 
     public class OnProgressBarChangedArgs: EventArgs {
         public float progressBarNormalize; 
@@ -61,6 +62,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             CuttingRecipeSO cuttingRecipeSO = GetCuttingReciptForRecipeInput(GetKitchenObject().GetkitchenObjectSO());
             OnProgressBarChanged?.Invoke(this, new IHasProgress.OnProgressBarChangedArgs() { progressBarNormalize = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax });
             OnCut.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this, EventArgs.Empty);
             if (cuttingProgress >= cuttingRecipeSO.cuttingProgressMax) {
                 GetKitchenObject().DestroySelf();
                 KitchenObject.SpawnKitchenObject(cuttingRecipeSO.output, this);

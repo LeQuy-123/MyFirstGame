@@ -8,6 +8,9 @@ public class DeliveryManager : MonoBehaviour
 {
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
+    public event EventHandler OnRecipeSuccess;
+    public event EventHandler OnRecipeFailure;
+
     public static DeliveryManager Instance { get; private set; }
     [SerializeField] private RecipeListSO recipeListSO;
     private List<RecipeSO> watitngRecipeSOList;
@@ -60,6 +63,7 @@ public class DeliveryManager : MonoBehaviour
                     watitngRecipeSOList.RemoveAt(i); // Remove the matched recipe
                     Debug.Log("Match recipes");
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty); // Notify other listeners
+                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty); // Notify to play sounds
                     Destroy(plateKitchenObject.gameObject); // Destroy the plate
                     return; // Exit the function after a match is found
                 }
@@ -67,6 +71,7 @@ public class DeliveryManager : MonoBehaviour
         }
         // No matching recipe found
         Debug.Log("No match recipes");
+        OnRecipeFailure?.Invoke(this, EventArgs.Empty); // Notify to play sounds
     }
     public List<RecipeSO> GetWaitingRecipeSOList()
     {

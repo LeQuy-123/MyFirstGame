@@ -15,5 +15,5 @@ MonoBehaviour:
   kitchenObjectList:
   - {fileID: 11400000, guid: a30b852d4aece45438a28fa946a1c998, type: 2}
   - {fileID: 11400000, guid: 0ff5e833c1fbb4b3eb1eb4ccfeb80d4a, type: 2}
-  - {fileID: 11400000, guid: b59600ffa8f3245df8ff6bc45b117f06, type: 2}
+  - {fileID: 11400000, guid: 985b12dcb3dce4429a03f6cf5c70c9e0, type: 2}
   recipeName: CheeseBurger
