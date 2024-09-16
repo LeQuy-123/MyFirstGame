@@ -16,7 +16,8 @@ public class KitchenGameManager : MonoBehaviour
     private State state;
     private float waitingToStartTimer = 1f;
     private float countDownToStartTimer = 3f;
-    private float gamePlayerTimer = 10f;
+    private float gamePlayerTimer;
+    private float gamePlayerTimerMax = 20f;
 
     private void Awake()
     {
@@ -41,6 +42,7 @@ public class KitchenGameManager : MonoBehaviour
                 if (countDownToStartTimer < 0f)
                 {
                     state = State.GamePlaying;
+                    gamePlayerTimer = gamePlayerTimerMax;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
                 break;
@@ -55,7 +57,6 @@ public class KitchenGameManager : MonoBehaviour
             case State.GameOver:
                 break;
         }
-        Debug.Log(state);
     }
     public bool IsGamePlaying()
     {
@@ -65,8 +66,18 @@ public class KitchenGameManager : MonoBehaviour
     {
         return state == State.CountDownToStart;
     }
+    public bool IsGameOver()
+    {
+        return state == State.GameOver;
+    }
     public float GetCountDownToStartTimer()
     {
         return countDownToStartTimer;
     }
+
+    public float GetCountDownPlayTimer()
+    {
+        return 1 - gamePlayerTimer / gamePlayerTimerMax;
+    }
+   
 }

@@ -17,6 +17,8 @@ public class DeliveryManager : MonoBehaviour
     private float spawnRecipeTimer;
     private float spawnRecipeTimerMax = 4f;
     private int waitingRecipeMax = 4;
+    private int successfulRecipeAmmount;
+
     private void Awake()
     {
         Instance = this;
@@ -60,8 +62,8 @@ public class DeliveryManager : MonoBehaviour
                 // If all ingredients match, deliver the recipe
                 if (plateContentMatch)
                 {
+                    successfulRecipeAmmount++;
                     watitngRecipeSOList.RemoveAt(i); // Remove the matched recipe
-                    Debug.Log("Match recipes");
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty); // Notify other listeners
                     OnRecipeSuccess?.Invoke(this, EventArgs.Empty); // Notify to play sounds
                     Destroy(plateKitchenObject.gameObject); // Destroy the plate
@@ -70,11 +72,14 @@ public class DeliveryManager : MonoBehaviour
             }
         }
         // No matching recipe found
-        Debug.Log("No match recipes");
         OnRecipeFailure?.Invoke(this, EventArgs.Empty); // Notify to play sounds
     }
     public List<RecipeSO> GetWaitingRecipeSOList()
     {
         return watitngRecipeSOList;
+    }
+    public int GetSuccessfulRecipesAmount()
+    {
+        return successfulRecipeAmmount;
     }
 }
