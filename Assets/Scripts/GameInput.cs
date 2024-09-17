@@ -7,8 +7,10 @@ using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
+    public static GameInput Instance { get; private set; }
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAltAction;
+    public event EventHandler OnPauseAction;
 
     private PlayerInputActions playerInputActions;
     private Camera mainCamera;
@@ -17,17 +19,30 @@ public class GameInput : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.Interact.performed += InteractPerformed;
         playerInputActions.Player.InteractAlt.performed += InteractAltPerformed;
+        playerInputActions.Player.Pause.performed += PausePerformed; 
 
         // Subscribe to the click event
         // playerInputActions.Player.Click.performed += OnClick;
 
         // Assign the main camera
         mainCamera = Camera.main;
+    }
+    private void OnDestroy()
+    {
+        playerInputActions.Player.Interact.performed -= InteractPerformed;
+        playerInputActions.Player.InteractAlt.performed -= InteractAltPerformed;
+        playerInputActions.Player.Pause.performed -= PausePerformed;
+        playerInputActions.Dispose();
+    }
+    private void PausePerformed(InputAction.CallbackContext context)
+    {
+        OnPauseAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void InteractAltPerformed(InputAction.CallbackContext context)
