@@ -13,6 +13,7 @@ public class MusicManager : MonoBehaviour
         Instance = this;
         audioSource = GetComponent<AudioSource>();
         gameVol = PlayerPrefs.GetFloat(PLAYER_REF_MUSIC_VOLUME, .3f);
+        audioSource.volume = gameVol;
     }
     public void ChangeVolume()
     {
