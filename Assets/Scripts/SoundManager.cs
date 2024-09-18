@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    private const string PLAYER_REF_SOUND_VOLUME = "PLAYER_REF_SOUND_VOLUME";
     public static SoundManager Instance { get; private set; }
     [SerializeField] private AudioClipRefsSO audioClipRefsSO;
     private float gameVol = 1f;
     private void Awake()
     {
         Instance = this;
+        gameVol = PlayerPrefs.GetFloat(PLAYER_REF_SOUND_VOLUME, 1f);
     }
     private void Start()
     {
@@ -78,6 +80,8 @@ public class SoundManager : MonoBehaviour
         {
             gameVol = 0f;
         }
+        PlayerPrefs.SetFloat(PLAYER_REF_SOUND_VOLUME, gameVol);
+        PlayerPrefs.Save();
     }
     public float GetVolume()
     {
