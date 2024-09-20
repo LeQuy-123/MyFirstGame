@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TutorialUI : MonoBehaviour
@@ -20,6 +22,27 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
+        GameInput.Instance.OnBindingsChanged += GameInput_OnBindingsChanged;
+        KitchenGameManager.Instance.OnStateChanged +=KitchenGameManager_OnStateChanged;
+        UpdateVisual();
+        Show();  // Hide the pause UI when the game starts.
+    }
+
+    private void KitchenGameManager_OnStateChanged(object sender, EventArgs e)
+    {
+        if(KitchenGameManager.Instance.IsCountDownToStartActive())
+        {
+            Hide(); // Hide
+        }
+    }
+
+    private void GameInput_OnBindingsChanged(object sender, EventArgs e)
+    {
+        UpdateVisual();
+    }
+
+    private void UpdateVisual()
+    {
         keyMoveUpText.text = GameInput.Instance.GetBidingText(GameInput.Binding.Move_Up);
         keyMoveDownText.text = GameInput.Instance.GetBidingText(GameInput.Binding.Move_Down);
         keyMoveLeftText.text = GameInput.Instance.GetBidingText(GameInput.Binding.Move_Left);
@@ -27,7 +50,6 @@ public class TutorialUI : MonoBehaviour
         keyInteractText.text = GameInput.Instance.GetBidingText(GameInput.Binding.Interact);
         keyInteractAltText.text = GameInput.Instance.GetBidingText(GameInput.Binding.InteractAlt);
         keyPauseText.text = GameInput.Instance.GetBidingText(GameInput.Binding.Pause);
-        Hide();  // Hide the pause UI when the game starts.
     }
 
     public void Show()

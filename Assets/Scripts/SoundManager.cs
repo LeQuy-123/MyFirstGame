@@ -32,6 +32,7 @@ public class SoundManager : MonoBehaviour
         TrashCounter trashCounter = sender as TrashCounter;
         PlaysoundRandom(audioClipRefsSO.objectPickup, trashCounter.transform.position);
     }
+  
 
     private void BaseCounter_OnAnyDrop(object sender, EventArgs e)
     {
@@ -69,7 +70,7 @@ public class SoundManager : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiple * gameVol);
     }
-    public void PlayWalkingsound(Vector3 position, float volume = 1f)
+        public void PlayWalkingsound(Vector3 position, float volume = 1f)
     {
         PlaysoundRandom(audioClipRefsSO.footStep, position, volume);
     }
@@ -83,6 +84,11 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetFloat(PLAYER_REF_SOUND_VOLUME, gameVol);
         PlayerPrefs.Save();
     }
+    public void PlayCountDownSound()
+    {
+        PlaysoundRandom(audioClipRefsSO.warning, Vector3.zero);
+    }
+
     public float GetVolume()
     {
         return gameVol;

@@ -22,7 +22,8 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAltAction;
     public event EventHandler OnPauseAction;
-
+    public event EventHandler OnBindingsChanged;
+    
     private PlayerInputActions playerInputActions;
     private Camera mainCamera;
     private Vector3 targetPosition;
@@ -175,7 +176,9 @@ public class GameInput : MonoBehaviour
                     playerInputActions.Player.Enable();
                     action();
                     PlayerPrefs.SetString(PLAYER_REF_BINDING, playerInputActions.SaveBindingOverridesAsJson());
+                    OnBindingsChanged?.Invoke(this, EventArgs.Empty);
                 }).Start();
 
     }
 }
+
