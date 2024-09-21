@@ -88,6 +88,10 @@ public class SoundManager : MonoBehaviour
     {
         PlaysoundRandom(audioClipRefsSO.warning, Vector3.zero);
     }
+    public void PlayWarningSound(Vector3 position)
+    {
+        PlaysoundRandom(audioClipRefsSO.warning, position);
+    }
 
     public float GetVolume()
     {

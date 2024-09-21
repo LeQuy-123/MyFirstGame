@@ -6,6 +6,10 @@ using UnityEngine;
 public class StoveCounterSound : MonoBehaviour
 {
     [SerializeField] StoveCounter stoveCounter;
+    private float warningSoundPlayTime;
+    private float maxWarningSoundPlayTime = .2f;
+    private bool  playWarningSound;
+
     private AudioSource audioSource;
     private void Awake()
     {
@@ -14,6 +18,26 @@ public class StoveCounterSound : MonoBehaviour
     private void Start()
     {
         stoveCounter.OnStateChanged += StoveCounter_OnStateChanged;
+        stoveCounter.OnProgressBarChanged += StoveCounter_OnProgressBarChanged;
+
+    }
+    private void Update()
+    {
+        if (playWarningSound)
+        {
+            warningSoundPlayTime -= Time.deltaTime;
+            if (warningSoundPlayTime <= 0)
+            {
+                warningSoundPlayTime = maxWarningSoundPlayTime;
+                SoundManager.Instance.PlayWarningSound(stoveCounter.transform.position);
+            }
+        }
+    }
+    private void StoveCounter_OnProgressBarChanged(object sender, IHasProgress.OnProgressBarChangedArgs e)
+    {
+        float burnShowProgressAmount = .5f;
+        playWarningSound = stoveCounter.IsFried() && e.progressBarNormalize > burnShowProgressAmount;
+
     }
 
     private void StoveCounter_OnStateChanged(object sender, StoveCounter.StateChangedEventArgs e)
@@ -26,4 +50,5 @@ public class StoveCounterSound : MonoBehaviour
             audioSource.Pause();
         }
     }
+       
 }

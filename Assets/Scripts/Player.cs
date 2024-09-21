@@ -98,18 +98,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
 
-        // If no input from keyboard, check for mouse click movement
-        if (moveDir == Vector3.zero && gameInput.IsMovingToTarget())
-        {
-            MoveToTarget();  // Move towards the clicked target position
-        }
-        else
-        {
-            // Normal input movement with keyboard
-            Move(moveDir);
-            isWalking = moveDir != Vector3.zero;
 
-        }
+        // Normal input movement with keyboard
+        Move(moveDir);
+        isWalking = moveDir != Vector3.zero;
     }
 
     // Move the player in the given direction
@@ -147,23 +139,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     }
 
     // Move the player towards the clicked target position
-    private void MoveToTarget()
-    {
-        Vector3 targetPosition = gameInput.GetTargetPosition();  // Get target position from GameInput
-        Vector3 moveDir = (targetPosition - transform.position).normalized;
-        moveDir.y = 0f;  // Ensure movement is only on the horizontal plane
-
-        // Move and rotate the player towards the target
-        transform.position += moveSpeed * Time.deltaTime * moveDir;
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 10f);
-
-        // Stop moving when the player is close to the target
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-        {
-            gameInput.StopMovingToTarget();  // Stop moving when reaching the destination
-        }
-    }
-
+  
     public bool IsWalking()
     {
         return isWalking;

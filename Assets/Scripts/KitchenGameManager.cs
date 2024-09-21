@@ -19,7 +19,7 @@ public class KitchenGameManager : MonoBehaviour
     private State state;
     private float countDownToStartTimer = 3f;
     private float gamePlayerTimer;
-    private float gamePlayerTimerMax = 20f;
+    private float gamePlayerTimerMax =60f;
     private bool isGamePause = false;
     private void Awake()
     {
@@ -59,7 +59,6 @@ public class KitchenGameManager : MonoBehaviour
         switch (state)
         {
             case State.WaitingToStart:
-                
                 break;
             case State.CountDownToStart:
                 countDownToStartTimer -= Time.deltaTime;
