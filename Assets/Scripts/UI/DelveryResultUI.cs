@@ -16,13 +16,9 @@ public class DelveryResultUI : MonoBehaviour
     [SerializeField] private Sprite successSprite;
     [SerializeField] private Sprite failureSprite;
     Animator animator;
-    private float displayTimer;
-    private float displayTimerMax;
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        displayTimerMax = 3f;
-        displayTimer = displayTimerMax;
     }
     private void Start()
     {
@@ -30,19 +26,6 @@ public class DelveryResultUI : MonoBehaviour
         DeliveryManager.Instance.OnRecipeSuccess+= DeliveryManager_OnRecipeSuccess;
         DeliveryManager.Instance.OnRecipeFailure += DeliveryManager_OnRecipeFailure;
     }
-    // private void Update()
-    // {
-    //     if(displayTimer > 0)
-    //     {
-    //         displayTimer -= Time.deltaTime;
-    //         if(displayTimer <= 0)
-    //         {
-    //             Hide();
-    //         }
-    //     } else {
-    //         displayTimer = displayTimerMax;
-    //     }
-    // }
 
     private void DeliveryManager_OnRecipeFailure(object sender, EventArgs e)
     {

@@ -593,11 +593,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815f778a3c15b4426bbd523343f4b4d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deliveryCounter: {fileID: 4816031561219087403}
   backgroundImage: {fileID: 6733173565264706604}
   textMessage: {fileID: 4531377305029428801}
   iconImage: {fileID: 1183354695409152837}
   successColor: {r: 0.08627451, g: 0.90588236, b: 0, a: 1}
-  failureColor: {r: 0.9622642, g: 0.004538993, b: 0.004538993, a: 0}
+  failureColor: {r: 0.7830189, g: 0.04801533, b: 0.04801533, a: 1}
   successSprite: {fileID: 21300000, guid: 6c562ac6d3e47ff4794df31886c6d864, type: 3}
   failureSprite: {fileID: 21300000, guid: 0d6e1281049dccc4189bf308b2ccf331, type: 3}
 --- !u!95 &589552710400207995
