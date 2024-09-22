@@ -114,4 +114,9 @@ public class KitchenGameManager : MonoBehaviour
         isGamePause = false;
         OnUnPauseAction?.Invoke(this, EventArgs.Empty);
     }
+    public void ReloadGame()
+    {
+        Loader.LoadScene(Loader.Sence.GameScene);
+        Time.timeScale = 1f;
+    }
 }
