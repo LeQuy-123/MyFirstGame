@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IKitchenObjectParent
+public class Player : NetworkBehaviour, IKitchenObjectParent
 {
-    public static Player Instance { get; private set; }
+    // public static Player Instance { get; private set; }
     public event EventHandler OnPickupSomething;
 
     public event EventHandler<OnSelectedCountersChangedEventArgs> OnSelectedCountersChanged;
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         public BaseCounter selectedCounter;
     }
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private GameInput gameInput;
+    // [SerializeField] private GameInput gameInput;
 
     [SerializeField] private LayerMask countrerLayerMask;
 
@@ -25,17 +26,17 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Debug.Log("Something is happening");
-        }
-        Instance = this;
+        // if (Instance != null)
+        // {
+        //     Debug.Log("Something is happening");
+        // }
+        // Instance = this;
     }
 
     private void Start()
     {
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
-        gameInput.OnInteractAltAction += GameInput_OnInteractAltAction; 
+        GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+        GameInput.Instance.OnInteractAltAction += GameInput_OnInteractAltAction; 
     }
 
     private void GameInput_OnInteractAltAction(object sender, EventArgs e)
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void HandleInteraction()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
         if (moveDir != Vector3.zero)
         {
@@ -95,7 +96,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void HandleMovement()
     {
         // Get input vector for manual movement (WASD)
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
 
 
