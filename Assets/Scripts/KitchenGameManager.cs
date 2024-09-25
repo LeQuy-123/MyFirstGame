@@ -17,9 +17,9 @@ public class KitchenGameManager : MonoBehaviour
         GameOver,
     }
     private State state;
-    private float countDownToStartTimer = 3f;
+    private float countDownToStartTimer = 1f;
     private float gamePlayerTimer;
-    private float gamePlayerTimerMax =60f;
+    private float gamePlayerTimerMax =  300f;
     private bool isGamePause = false;
     private void Awake()
     {
@@ -30,6 +30,10 @@ public class KitchenGameManager : MonoBehaviour
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+
+        //debug trigger game
+        state = State.CountDownToStart;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnInteractAction(object sender, EventArgs e)
