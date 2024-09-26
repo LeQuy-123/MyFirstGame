@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour, IKitchenObjectParent
 {
-    // public static Player Instance { get; private set; }
+    public static event EventHandler OnPlayerSpawned;
+    public static event EventHandler OnPlayerPickUpSomething;
+
+    public static Player LocalInstace { get; private set; }
     public event EventHandler OnPickupSomething;
 
     public event EventHandler<OnSelectedCountersChangedEventArgs> OnSelectedCountersChanged;
@@ -24,13 +27,14 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
     private readonly float playerHeight = 2f;
     private Vector3 lastInteractDirection;
     private BaseCounter selectedCounter;
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
-        // if (Instance != null)
-        // {
-        //     Debug.Log("Something is happening");
-        // }
-        // Instance = this;
+        // base.OnNetworkSpawn();
+        if(IsOwner)
+        {
+            LocalInstace = this;
+        }
+        OnPlayerSpawned.Invoke(this, EventArgs.Empty);
     }
 
     private void Start()
@@ -59,9 +63,28 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
     private void Update()
     {
-        HandleMovement();
-        HandleInteraction();
+        if (IsOwner)
+        {
+            HandleMovement();
+            // HandleMovementServerAuth();
+            HandleInteraction();
+        }
     }
+
+    //this is for server movement auth, client send request to server then server move the player
+    // private void HandleMovementServerAuth()
+    // {
+    //     Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
+    //     HandleMovementServerRPC(inputVector);
+    // }
+    // [ServerRpc(RequireOwnership =false)]
+    // private void HandleMovementServerRPC(Vector2 inputVector)
+    // {
+    //     Vector3 moveDir = new(inputVector.x, 0f, inputVector.y);
+    //     // Normal input movement with keyboard
+    //     Move(moveDir);
+    //     isWalking = moveDir != Vector3.zero;
+    // }
 
     private void HandleInteraction()
     {
@@ -186,6 +209,13 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         this.kitchenObject = kitchenObject;
         if (kitchenObject != null) {
             OnPickupSomething?.Invoke(this, EventArgs.Empty);
+            OnPlayerPickUpSomething?.Invoke(this, EventArgs.Empty);
         } 
     }
+    public static void ResetData()
+    {
+        OnPlayerSpawned = null;
+        OnPlayerPickUpSomething=null;
+    }
+
 }

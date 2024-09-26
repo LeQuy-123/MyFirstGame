@@ -10,6 +10,7 @@ public class ResetStaticDataManager : MonoBehaviour
         CuttingCounter.ResetData();
         BaseCounter.ResetData();
         TrashCounter.ResetData();
+        Player.ResetData();
     }
 
     // Update is called once per frame
