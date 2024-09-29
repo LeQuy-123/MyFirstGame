@@ -218,4 +218,8 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         OnPlayerPickUpSomething=null;
     }
 
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
+    }
 }
