@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlateKitchenObject : KitchenObject
@@ -21,11 +22,24 @@ public class PlateKitchenObject : KitchenObject
         if (kitchenObjectSOList.Contains(kitchenObjectSO) || !validKitchenObjectSOList.Contains(kitchenObjectSO))
         {
             return false;
-        } else {
-            kitchenObjectSOList.Add(kitchenObjectSO);
-            OnIngradientAdded?.Invoke(this, new OnIngradientAddedEventArgs{kitchenObjectSO = kitchenObjectSO});
+        } 
+        else 
+        {
+            TryAddIngredientServerRpc(KitchenGameMultiplayer.Instance.GetKitchenObjectSOIndex(kitchenObjectSO));
             return true;
         }
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void TryAddIngredientServerRpc(int kitchenObjectSOIndex)
+    {
+        TryAddIngredientClientRpc(kitchenObjectSOIndex);
+    }
+    [ClientRpc]
+    private void TryAddIngredientClientRpc(int kitchenObjectSOIndex)
+    {
+        KitchenObjectSO kitchenObjectSO = KitchenGameMultiplayer.Instance.GetKitchenObjectSOByIndex(kitchenObjectSOIndex);
+        kitchenObjectSOList.Add(kitchenObjectSO);
+        OnIngradientAdded?.Invoke(this, new OnIngradientAddedEventArgs { kitchenObjectSO = kitchenObjectSO });
     }
     public List<KitchenObjectSO> GetKitchenObjectSOList() 
     {

@@ -53,6 +53,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     }
     private void State_OnValueChanged(State previousValue, State newValue)
     {
+        if (state.Value != State.Fried) return;
         OnStateChanged?.Invoke(this, new StateChangedEventArgs() { state = state.Value });
         if (state.Value == State.Burned || state.Value == State.Idle)
         {
