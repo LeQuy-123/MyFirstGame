@@ -31,7 +31,7 @@ public class OptionUI : MonoBehaviour
 
     private void Start()
     {
-        KitchenGameManager.Instance.OnUnPauseAction += KitchenGameManager_OnUnPauseAction;
+        KitchenGameManager.Instance.OnLocalUnPauseAction += KitchenGameManager_OnUnPauseAction;
         UpdateSoundButtonVisual();  // Update the sound effect button text.
         UpdateMusicButtonVisual();  // Update the music button text.
         UpdateButtonVisual();

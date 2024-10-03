@@ -15,8 +15,8 @@ public class GamePauseUI : MonoBehaviour
 
     private void Start()
     {
-        KitchenGameManager.Instance.OnPauseAction += KitchenGameManager_Pause;
-        KitchenGameManager.Instance.OnUnPauseAction += KitchenGameManager_Unpause;
+        KitchenGameManager.Instance.OnLocalPauseAction += KitchenGameManager_Pause;
+        KitchenGameManager.Instance.OnLocalUnPauseAction += KitchenGameManager_Unpause;
         
         Hide();  // Hide the pause UI when the game starts.
     }
