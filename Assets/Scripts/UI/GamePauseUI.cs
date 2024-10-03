@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ public class GamePauseUI : MonoBehaviour
     {
         mainMenuButton.onClick.AddListener(() =>
         {
+            NetworkManager.Singleton.Shutdown();
             Loader.LoadScene(Loader.Sence.MainMenuScene);  // Load the main scene when the play button is clicked.   
         });
         resumeButton.onClick.AddListener(() =>
