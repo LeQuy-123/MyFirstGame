@@ -16478,6 +16478,41 @@ PrefabInstance:
       propertyPath: collisionsLayerMask.m_Bits
       value: 192
       objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.data[0].x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.data[1].x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.data[2].x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.data[2].z
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.data[3].x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741191608747125582, guid: fa095517fa7434f0ba9202ee6280c810,
+        type: 3}
+      propertyPath: SpawnLocationList.Array.data[3].z
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
