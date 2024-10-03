@@ -23,7 +23,7 @@ public class KitchenGameManager : NetworkBehaviour
     private bool isLocalPlayerReady;
     private NetworkVariable<float> countDownToStartTimer = new NetworkVariable<float>(3f);
     private NetworkVariable<float> gamePlayerTimer = new NetworkVariable<float>(0f);
-    private float gamePlayerTimerMax =  10f;
+    private float gamePlayerTimerMax =  90f;
     private bool isGamePause = false;
     private void Awake()
     {
