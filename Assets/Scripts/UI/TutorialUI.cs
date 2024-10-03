@@ -23,18 +23,19 @@ public class TutorialUI : MonoBehaviour
     private void Start()
     {
         GameInput.Instance.OnBindingsChanged += GameInput_OnBindingsChanged;
-        KitchenGameManager.Instance.OnStateChanged +=KitchenGameManager_OnStateChanged;
+        KitchenGameManager.Instance.OnLocalPlayerReadyChange += KitchenGameManager_OnLocalPlayerReadyChange;
         UpdateVisual();
-        Show();  // Hide the pause UI when the game starts.
+        Show();  
     }
 
-    private void KitchenGameManager_OnStateChanged(object sender, EventArgs e)
+    private void KitchenGameManager_OnLocalPlayerReadyChange(object sender, EventArgs e)
     {
-        if(KitchenGameManager.Instance.IsCountDownToStartActive())
+        if(KitchenGameManager.Instance.GetIsLocalPlayerReady())
         {
-            Hide(); // Hide
+            Hide();
         }
     }
+ 
 
     private void GameInput_OnBindingsChanged(object sender, EventArgs e)
     {

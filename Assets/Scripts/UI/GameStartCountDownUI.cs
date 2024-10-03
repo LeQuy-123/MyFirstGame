@@ -18,6 +18,7 @@ public class GameStartCountDownUI : MonoBehaviour
     private void Start()
     {
         KitchenGameManager.Instance.OnStateChanged += KitchenGameManager_OnStateChanged;
+        Hide();
     }
     private void Update()
     {
