@@ -11,6 +11,9 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     private const int MAX_PLAYER_AMOUNT = 4;
     [SerializeField] KitchenObjectListSO kitchenObjectListSO;
     public static KitchenGameMultiplayer Instance { get; private set; }
+    public event EventHandler OnTryToJoinGame;
+    public event EventHandler OnFaildToJoinGame;
+
     private void Awake()
     {
         Instance = this;
@@ -23,8 +26,16 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     }
     public void StartClient()
     {
+        OnTryToJoinGame?.Invoke(this, EventArgs.Empty);
         NetworkManager.Singleton.StartClient();
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_ClientDisconnectCallback;
     }
+
+    private void NetworkManager_ClientDisconnectCallback(ulong clientId)
+    {
+        OnFaildToJoinGame?.Invoke(this, EventArgs.Empty);
+    }
+
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
     {
         if (SceneManager.GetActiveScene().name != Loader.Sence.CharacterSelectScene.ToString())
