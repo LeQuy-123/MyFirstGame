@@ -14,7 +14,6 @@ public class CharactedSelectReady : NetworkBehaviour
     }
     public void SetPlayerReady()
     {
-        Debug.Log("Setting player ready...");
         SetPlayerReadyServerRpc();
     }
     [ServerRpc(RequireOwnership = false)]

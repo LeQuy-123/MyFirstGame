@@ -17,13 +17,12 @@ public class HostDisconnectUI : MonoBehaviour
     }
     private void Start()
     {
-        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
         Hide();
     }
-
-    private void NetworkManager_OnClientConnectedCallback(ulong clientId)
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)  // this will only be call when this local client disconnects or the server disconnects, it will not be call when other client disconnects
     {
-        if (clientId == NetworkManager.ServerClientId)
+        if (!NetworkManager.Singleton.IsHost) // this will prevent this popup show uo on host when client disconnect
         {
             Show();
         }
@@ -31,7 +30,7 @@ public class HostDisconnectUI : MonoBehaviour
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        gameObject?.SetActive(true);
     }
     public void Hide()
     {

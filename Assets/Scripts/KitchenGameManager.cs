@@ -16,6 +16,8 @@ public class KitchenGameManager : NetworkBehaviour
     public event EventHandler OnLocalPlayerReadyChange;
     public event EventHandler OnMultiplayerUnPauseAction;
     public event EventHandler OnMultiplayerPauseAction;
+    // private NetworkList<PlayerData> playerDataNetworkList;
+
     [SerializeField] private Transform playerPrefab;
     private enum State {
         WaitingToStart,
@@ -227,5 +229,18 @@ public class KitchenGameManager : NetworkBehaviour
             }
         }
         isGamePaused.Value = false;
-    }   
+    }
+
+    // public int GetPlayerDataIndexFromClientId(ulong clientId)
+    // {
+    //     for (int i = 0; i < playerDataNetworkList.Count; i++)
+    //     {
+    //         if (playerDataNetworkList[i].clientId == clientId)
+    //         {
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
+
 }
