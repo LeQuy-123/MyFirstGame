@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KitchenGameMultiplayer : NetworkBehaviour
 {
+    private const int MAX_PLAYER_AMOUNT = 4;
     [SerializeField] KitchenObjectListSO kitchenObjectListSO;
     public static KitchenGameMultiplayer Instance { get; private set; }
     private void Awake()
@@ -24,15 +27,18 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     }
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
     {
-        // if(KitchenGameManager.Instance.IsWaitingToStart())
-        // {
-        //     response.Approved = true;
-        //     response.CreatePlayerObject = true;
-        // }
-        // else
-        // {
-        //     response.Approved = false;
-        // }
+        if (SceneManager.GetActiveScene().name != Loader.Sence.CharacterSelectScene.ToString())
+        {
+            response.Approved = false;
+            response.Reason = "Game is already started";
+            return;
+        }
+        if (NetworkManager.Singleton.ConnectedClientsIds.Count >= MAX_PLAYER_AMOUNT)
+        {
+            response.Approved = false;
+            response.Reason = "Game is full";
+            return;
+        }
         response.Approved = true;
     }
 
