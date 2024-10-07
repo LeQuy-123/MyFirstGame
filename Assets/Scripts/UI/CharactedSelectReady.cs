@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CharactedSelectReady : NetworkBehaviour
+public class CharacterSelectReady : NetworkBehaviour
 {
-    public static CharactedSelectReady Instace {get; private set;}
+    public static CharacterSelectReady Instace {get; private set;}
     private Dictionary<ulong, bool> playerReadyDictionary;
+    public event EventHandler OnReadyChanged;
     private void Awake()
     {
         Instace = this;
@@ -19,6 +21,7 @@ public class CharactedSelectReady : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SetPlayerReadyServerRpc(ServerRpcParams rpcParams = default)
     {
+        SetPlayerReadyClientRpc(rpcParams.Receive.SenderClientId);
         playerReadyDictionary[rpcParams.Receive.SenderClientId] = true;
         bool allClientsReady = true;
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
@@ -33,5 +36,15 @@ public class CharactedSelectReady : NetworkBehaviour
         {
             Loader.LoadNetworkScene(Loader.Sence.GameScene);
         }
+    }
+    [ClientRpc]
+    private void SetPlayerReadyClientRpc(ulong clientId)
+    {
+        playerReadyDictionary[clientId] = true;
+        OnReadyChanged.Invoke(this, EventArgs.Empty);
+    }
+    public bool IsPlayerReady(ulong clientId)
+    {
+        return playerReadyDictionary.ContainsKey(clientId) &&  playerReadyDictionary[clientId];
     }
 }
