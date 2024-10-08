@@ -34,8 +34,10 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartHost();
     }
+
 
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
@@ -47,12 +49,24 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     {
         OnTryToJoinGame?.Invoke(this, EventArgs.Empty);
         NetworkManager.Singleton.StartClient();
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_ClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
     }
 
-    private void NetworkManager_ClientDisconnectCallback(ulong clientId)
+    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
         OnFaildToJoinGame?.Invoke(this, EventArgs.Empty);
+    }
+    private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
+    {
+        for (int i = 0; i < playerDataNetworkList.Count; i++)
+        {
+            PlayerData playerData = playerDataNetworkList[i];
+            if (playerData.clientId == clientId)
+            {
+                playerDataNetworkList.RemoveAt(i);
+                break;
+            }
+        }
     }
 
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
@@ -183,5 +197,10 @@ public class KitchenGameMultiplayer : NetworkBehaviour
             if (IsColorAvailble(i)) return i;
         }
         return -1;
+    }
+    public void KickPlayer(ulong clientId)
+    {
+        NetworkManager.Singleton.DisconnectClient(clientId);
+        NetworkManager_Server_OnClientDisconnectCallback(clientId);
     }
 }
